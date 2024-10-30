@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text , FlatList, TextInput} from 'react-native';
+import { Image, StyleSheet, View, Text , FlatList, TextInput, Button} from 'react-native';
 
 import FoodListItem from '@/components/FoodListItem';
 import { useState } from 'react';
@@ -10,13 +10,17 @@ const foodItems = [
 ]
 export default function HomeScreen() {
   const [search, setSearch] = useState('');
+  const performSearch = () => {
+    console.warn('Searching for: ', search);
+    setSearch('');
+  }
   return (
     <View style = {styles.container}>
       <TextInput 
       value = {search} 
       onChangeText = {setSearch}
       placeholder='Search...' style = {styles.input}/>
-      <Text>{search}</Text>
+      {search && <Button title="Search" onPress = {performSearch} />}
       {/* Food item view */}
       <FlatList
         data = {foodItems}
