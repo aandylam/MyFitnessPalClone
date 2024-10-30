@@ -1,5 +1,8 @@
 configurationset:
   - configuration:
+      name: postgresql_config
+      uri: postgresql://ep-dark-pine-a66nbd0c.us-west-2.aws.neon.tech/fitnessdb?user=fitnessdb_owner&password=2fUon0KEwyGp
+  - configuration:
       name: edamam
       app_id: 58a932e3
       app_key: e6cf83830ddba8127afb32998f26f1c6
