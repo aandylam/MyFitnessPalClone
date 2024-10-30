@@ -38,7 +38,7 @@ const FoodListItem = ({ item }) => {
         food_id: item.food.foodId,
         kcal: item.food.nutrients.ENERC_KCAL,
         label: item.food.label,
-        user_id: 'vadim',
+        user_id: 'andy',
       },
     });
     router.back();

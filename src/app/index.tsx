@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import FoodLogListItem from '@/components/FoodLogListItem';
 
 const query = gql `
-    query MyQuery($date: Date!, $user_id: String!) {
+    query foodLogsForDate($date: Date!, $user_id: String!) {
         foodLogsForDate(date: $date, user_id: $user_id) {
             food_id
             user_id
@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
             <View style = {styles.headerRow}>
                 <Text style = {styles.subText}>Today's Logged Foods</Text>
-                <Link href="/search"><Button title = "Add Food"/></Link>
+                <Link href="/search" asChild><Button title = "Add Food"/></Link>
             </View>
             <FlatList
                 data = {data.foodLogsForDate}
