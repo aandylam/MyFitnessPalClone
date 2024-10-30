@@ -1,81 +1,53 @@
-import { Image, StyleSheet, View, Text , FlatList, TextInput, Button, ActivityIndicator} from 'react-native';
-
+import {View, Text, FlatList, Button, StyleSheet} from 'react-native';
+import { Link } from 'expo-router';
 import FoodListItem from '@/components/FoodListItem';
-import { useState } from 'react';
-import {gql, useLazyQuery} from '@apollo/client';
 
-const query = gql`
-  query search($ingr: String) {
-    search(ingr: $ingr) {
-      text
-      hints {
-        food {
-          label
-          brand
-          foodId
-          nutrients {
-            ENERC_KCAL
-          }
-        }
-      }
-    }
-  }
-`;
 
 const foodItems = [
-  {label: "Pizza", cal: 75, brand: "Domino's"},
-  {label: "Apple", cal: 50, brand: "Generic"},
-  {label: "Coffee", cal: 100, brand: "Americano"},
-]
+    {food: {label: "Pizza", nutrients: {ENERC_KCAL: 100}, brand: "Domino's"}}
+];
+
 export default function HomeScreen() {
-  const [search, setSearch] = useState('');
-  const [runSearch, {data, loading, error}] = useLazyQuery(query);
-  
-  const performSearch = () => {
-    runSearch({variables: {ingr: search}});
-    setSearch('');
-  }
-  
-
-  if(error) {
-    return <Text>Failed to search</Text>;
-  }
-
-  console.log(JSON.stringify(data, null, 2));
-
-  const items = data?.search?.hints || [];
-  return (
-    <View style = {styles.container}>
-      <TextInput 
-      value = {search} 
-      onChangeText = {setSearch}
-      placeholder='Search...' style = {styles.input}/>
-      {search && <Button title="Search" onPress = {performSearch} />}
-      {/* Food item view */}
-      {loading && <ActivityIndicator/>}
-      <FlatList
-        data = {items}
-        renderItem = {({item}) => <FoodListItem item = {item} />}
-        ListEmptyComponent = {() => <Text>Search a food</Text>}
-        contentContainerStyle = {{gap: 5}}
-      />
+    return (
+        <View style = {styles.container}>
+            <View style = {styles.headerRow}>
+                <Text style = {styles.subText}>Calories</Text>
+                
+            </View>
 
 
-    </View>
-  );
-}
+
+
+            <View style = {styles.headerRow}>
+                <Text style = {styles.subText}>Today's Logged Foods</Text>
+                <Link href="/search"><Button title = "Add Food"/></Link>
+            </View>
+            <FlatList
+                data = {foodItems}
+                contentContainerStyle = {{gap: 5}}
+                renderItem = {({item}) => <FoodListItem item = {item}/>}
+            />
+        </View>
+    );
+} 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 10,
-    gap: 10,
-  },
-
-  input: {
-    backgroundColor: '#f2f2f2',
-    padding: 10,
-    borderRadius: 20,
-  }
+    container: {
+        backgroundColor: 'white',
+        flex: 1,
+        padding: 10,
+        gap: 10,
+    },
+    headerRow: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center'
+    },
+    subText: {
+        fontSize: 16, 
+        fontWeight: '500', 
+        flex: 1, 
+        color: 'dimgray'
+    },
 });
+
